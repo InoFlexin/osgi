@@ -2,16 +2,14 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/InoFlexin/serverbase/base"
+	"osgi"
 )
 
 func main() {
-	boot := base.Boot{Protocol: "tcp",
-		Port:        ":5092",
-		ServerName:  "test_server",
-		Callback:    nil,
-		ReceiveSize: 1024}
+	p := osgi.CreatePacket(1, "strings")
+	p2 := osgi.ToString(*p)
 
-	fmt.Println(boot)
+	fmt.Println(p)
+	fmt.Println(p2)
+	fmt.Println(osgi.ToPacket(p2))
 }
