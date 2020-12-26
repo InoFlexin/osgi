@@ -2,14 +2,40 @@ package main
 
 import (
 	"fmt"
-	"osgi"
+	"net"
+
+	"sync"
+
+	"github.com/InoFlexin/serverbase/base"
 )
 
-func main() {
-	p := osgi.CreatePacket(1, "strings")
-	p2 := osgi.ToString(*p)
+type MyMessage base.Message
 
-	fmt.Println(p)
-	fmt.Println(p2)
-	fmt.Println(osgi.ToPacket(p2))
+//MyMessage.OnMesageReceive OSGI Gateway Socket Message Receive Callback
+func (m MyMessage) OnMessageReceive(message *base.Message, client net.Conn) {
+	fmt.Println("on message receive: "+message.Json+" action: %d", message.Action)
+}
+
+func (m MyMessage) OnConnect(message *base.Message, client net.Conn) {
+	fmt.Println("on connect: "+message.Json+" action: %d", message.Action)
+}
+
+func (m MyMessage) OnClose(err error) {
+}
+
+func main() {
+	wg := sync.WaitGroup{}
+
+	ev := MyMessage{} // 서버 이벤트 선언
+	boot := base.Boot{Protocol: "tcp",
+		Port:        ":5092",
+		ServerName:  "test_server",
+		Callback:    ev,
+		ReceiveSize: 1024,
+		Complex:     false}
+	// server boot option 설정
+
+	wg.Add(1) // synchronized gorutine
+	go base.ServerStart(boot, &wg)
+	wg.Wait()
 }
