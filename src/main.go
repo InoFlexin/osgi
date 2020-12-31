@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"net"
+	"osgi"
 
 	"sync"
 
@@ -13,11 +13,12 @@ type MyMessage base.Message
 
 //MyMessage.OnMesageReceive OSGI Gateway Socket Message Receive Callback
 func (m MyMessage) OnMessageReceive(message *base.Message, client net.Conn) {
-	fmt.Println("on message receive: "+message.Json+" action: %d", message.Action)
+	// "{"ProxySequence: 1, Action: 1, Data: "data""}"
+	osgiPacket := osgi.ToPacket(message.Json)
+	//Router로 패킷을 넘겨줌.
 }
 
 func (m MyMessage) OnConnect(message *base.Message, client net.Conn) {
-	fmt.Println("on connect: "+message.Json+" action: %d", message.Action)
 }
 
 func (m MyMessage) OnClose(err error) {

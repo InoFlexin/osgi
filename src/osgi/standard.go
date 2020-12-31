@@ -7,6 +7,7 @@ import (
 
 type OSGIPacketStandard struct {
 	ProxySequence int
+	Action        uint32
 	Data          string
 }
 
@@ -29,9 +30,9 @@ func ToString(packetStandard OSGIPacketStandard) string {
 	return string(e)
 }
 
-func CreatePacket(proxySequence int, json string) *OSGIPacketStandard {
+func CreatePacket(proxySequence int, action uint32, json string) *OSGIPacketStandard {
 	return &OSGIPacketStandard{
 		ProxySequence: proxySequence,
-		Data:          json,
-	}
+		Action:        action,
+		Data:          json}
 }
