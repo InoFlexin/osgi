@@ -1,3 +1,5 @@
-# github.com/InoFlexin/serverbase v1.0.3
+# github.com/InoFlexin/serverbase v1.0.7
 ## explicit
+github.com/InoFlexin/serverbase/auth
 github.com/InoFlexin/serverbase/base
+github.com/InoFlexin/serverbase/client
